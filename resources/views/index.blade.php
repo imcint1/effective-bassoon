@@ -146,7 +146,7 @@
                             </div><!--col-->
 
                         </div>
-                        <div class='row'>
+                        <!-- div class='row'>
                             <div class='col-12'>
                                 <div class="portlet-box bg-trans mb-30 border0 ">
                                     <div class='portlet-body'>
@@ -195,7 +195,7 @@
                                 </div>
 
                             </div>
-                        </div>
+                        </div -->
 
 
                         <div class="row">

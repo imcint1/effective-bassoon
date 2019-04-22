@@ -1,4 +1,4 @@
-                <header class="navbar page-header whiteHeader navbar-expand-lg">
+                <header class="navbar page-header darkHeader navbar-expand-lg">
                     <ul class="nav flex-row mr-auto">
                         <li class="nav-item">
                             <a href="javascript:void(0)" class="nav-link sidenav-btn h-lg-down">
