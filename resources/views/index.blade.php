@@ -1,36 +1,23 @@
 @extends('templates.app')
 
-@section('page-subheader')
-                <div class="page-subheader mb-30">
-                    <div class="container-fluid">
-                        <div class="row align-items-center">
-                            <div class="col-md-7">
-                                <div class="list">
-                                    <div class="list-item pl-0">
-                                        <div class="list-thumb ml-0 mr-3 pr-3  b-r text-muted">
-                                            <i class="icon-Home"></i>
-                                        </div>
-                                        <div class="list-body">
-                                            <div class="list-title fs-2x">
-                                                <h3>Welcome <strong>Sarah</strong></h3>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-5 d-flex justify-content-end h-md-down">
-                                <nav aria-label="breadcrumb">
-                                    <ol class="breadcrumb no-padding bg-trans mb-0">
-                                        <li class="breadcrumb-item"><a href="index.html"><i class="icon-Home mr-2 fs14"></i></a></li>
-                                        <li class="breadcrumb-item">Dashboard</li>
-                                        <li class="breadcrumb-item active">Default </li>
-                                    </ol>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                </div><!-- page-sub-Header end-->
+{{-- Subheader directives --}}
+
+@section('head-title', 'Test')
+
+@section('page-icon')
+    <i class="icon-Home"></i>
 @endsection
+
+@section('title')
+    <h3>Welcome <strong>{{ Auth::user()->name }}</strong></h3>
+@endsection
+
+@section('breadcrumbs')
+    <li class="breadcrumb-item"><a href="index.html"><i class="icon-Home mr-2 fs14"></i></a></li>
+    <li class="breadcrumb-item active">Dashboard</li>
+@endsection
+
+{{-- End subheader --}}
 
 @section('page-content')
                     <div class="container-fluid">

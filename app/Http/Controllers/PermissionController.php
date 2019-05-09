@@ -12,9 +12,17 @@ class PermissionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    
+    public function __construct() {
+        $this->middleware(['auth']); //isAdmin middleware lets only users with a //specific permission permission to access these resources
+    }
+    
     public function index()
     {
         //
+        $permissions = Permission::all(); //Get all permissions
+
+        return view('permissions.index')->with('permissions', $permissions);
     }
 
     /**
@@ -25,6 +33,10 @@ class PermissionController extends Controller
     public function create()
     {
         //
+        $roles = Role::get(); //Get all roles
+
+        return view('permissions.create')->with('roles', $roles);
+        
     }
 
     /**
@@ -36,6 +48,31 @@ class PermissionController extends Controller
     public function store(Request $request)
     {
         //
+        $this->validate($request, [
+            'name'=>'required|max:40',
+        ]);
+
+        $name = $request['name'];
+        $permission = new Permission();
+        $permission->name = $name;
+
+        $roles = $request['roles'];
+
+        $permission->save();
+
+        if (!empty($request['roles'])) { //If one or more role is selected
+            foreach ($roles as $role) {
+                $r = Role::where('id', '=', $role)->firstOrFail(); //Match input role to db record
+
+                $permission = Permission::where('name', '=', $name)->first(); //Match input //permission to db record
+                $r->givePermissionTo($permission);
+            }
+        }
+
+        return redirect()->route('permissions.index')
+            ->with('flash_message',
+             'Permission'. $permission->name.' added!');
+        
     }
 
     /**
@@ -47,6 +84,7 @@ class PermissionController extends Controller
     public function show(Permission $permission)
     {
         //
+        return redirect('permissions');
     }
 
     /**
@@ -58,6 +96,9 @@ class PermissionController extends Controller
     public function edit(Permission $permission)
     {
         //
+        $permission = Permission::findOrFail($id);
+
+        return view('permissions.edit', compact('permission'));
     }
 
     /**
@@ -70,6 +111,16 @@ class PermissionController extends Controller
     public function update(Request $request, Permission $permission)
     {
         //
+        $permission = Permission::findOrFail($id);
+        $this->validate($request, [
+            'name'=>'required|max:40',
+        ]);
+        $input = $request->all();
+        $permission->fill($input)->save();
+
+        return redirect()->route('permissions.index')
+            ->with('flash_message',
+             'Permission'. $permission->name.' updated!');
     }
 
     /**
@@ -81,5 +132,19 @@ class PermissionController extends Controller
     public function destroy(Permission $permission)
     {
         //
-    }
+        $permission = Permission::findOrFail($id);
+
+        //Make it impossible to delete this specific permission    
+        if ($permission->name == "Administer roles & permissions") {
+                return redirect()->route('permissions.index')
+                ->with('flash_message',
+                 'Cannot delete this Permission!');
+            }
+
+            $permission->delete();
+
+            return redirect()->route('permissions.index')
+                ->with('flash_message',
+                 'Permission deleted!');
+        }
 }

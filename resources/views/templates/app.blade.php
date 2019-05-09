@@ -11,7 +11,7 @@
             <main class="content">
                 @include('templates.navbar')
                 
-                @yield('page-subheader')
+                @include('templates.subheader')
                 
                 <div class="page-content d-flex flex">
                     @yield('page-content')

@@ -9,27 +9,21 @@
             <ul class="metisMenu" id="metisMenu">
                 <li class="nav-title">Main<span class="nav-thumbnail">MN</span></li>
                 <li class="active"> <i class="icon-Gaugage nav-thumbnail"></i>
+                    <a href="/"><span class="nav-text">Dashboard</span></a>
+                    
+                </li><!--Menu-item-->
+                
+                <li> <i class="icon-Gaugage nav-thumbnail"></i>
                     <a class="has-arrow" href="javascript:void(0)">
-
-                        <span class="nav-text">
-                            Dashboard 
-                        </span>
+                        <span class="nav-text"> Admin Stuff </span>
                     </a>
                     <ul aria-expanded="false">
                         <li class="active">
-                            <span class="nav-thumbnail">01</span>
-                            <a href="index.html">Default</a>
+                            <a href="/users">Users</a>
                         </li>
-                        <li>
-                            <span class="nav-thumbnail">02</span>
-                            <a href="index-02.html">Dashboard 2</a>
-                        </li>
-                        <li>
-
-
-                        </li>
+                        <li> <a href="/roles">Roles/Permissions</a></li>
                     </ul>
-                </li><!--Menu-item-->
+                </li><!-- admin stuff -->
 
                 <li><i class="icon-Magic-Wand nav-thumbnail"></i>
                     <a href="widgets.html">
