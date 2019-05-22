@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+
 use App\User;
 use App\Auth;
-
 use App\Role;
 use App\Permission;
 
@@ -55,7 +56,11 @@ class UserController extends Controller
             'password'=>'required|min:8|confirmed'
         ]);
         
-        $user = User::create($request->only('email','name','password'));
+        $user = User::create([
+            'name'=>$request['name'],
+            'email'=>$request['email'],
+            'password'=> bcrypt($request['password'])
+        ]);
         
         $roles = $request['roles'];
         
@@ -66,7 +71,7 @@ class UserController extends Controller
             }
         }
         
-        return redirect()->route('users.index')->with('flash_message', 'User successfully added.');
+        return redirect()->route('users.index')->with('success', 'User successfully added.');
     }
 
     /**
@@ -107,16 +112,23 @@ class UserController extends Controller
     {
         //
         $user = User::findOrFail($id);
-        
+        Log::info($user);
         $this->validate($request, [
             'name'=>'required|max:120',
-            'email'=>'required|email|unique:users',
+            'email'=>'required|email|unique:users,email,'.$user->id,
             'password'=>'required|min:8|confirmed'
         ]);
         
-        $input = $request->only(['name','email','password']);
+        
+        $user->fill([
+            'name'=>$request['name'],
+            'email'=>$request['email'],
+            'password'=> bcrypt($request['password'])         
+        ]);
+        $user->save();
+        
         $roles = $request['roles'];
-        $user->fill($input)->save();
+        
         
         if(isset($roles)){
             $user->roles()->sync($roles);
@@ -125,7 +137,7 @@ class UserController extends Controller
             $user->roles()->detach();
         }
         
-        return redirect()->route('users.index')->with('flash_message', 'User successfully edited.');
+        return redirect()->route('users.index')->with('success', 'User successfully edited.');
     }
 
     /**
@@ -138,8 +150,9 @@ class UserController extends Controller
     {
         //
         $user = User::findOrFail($id);
+        $name = $user->name;
         $user->delete();
-        
-        return redirect()->route('users.index')->with('flash_message','User successfully deleted.');
+        flash('User '. $name . 'was deleted. RIP')->warning();
+        return redirect()->route('users.index');
     }
 }

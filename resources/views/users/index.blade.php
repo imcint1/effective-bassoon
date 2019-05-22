@@ -16,6 +16,15 @@
 <div class="container-fluid">
 <div class="row">
     <div class="col-lg-12 mb-30">
+        @if ($message = Session::get('success'))
+        <div class="alert alert-success alert-block">
+            <button type="button" class="close" data-dismiss="alert">×</button>	
+                <strong>{{ $message }}</strong>
+        </div>
+        @endif
+        
+        @include('flash::message')
+        
         <div class="portlet-box">
             <div class="portlet-header flex-row flex d-flex align-items-center">
                 <div class="flex d-flex flex-column"> 
