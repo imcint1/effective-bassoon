@@ -289,10 +289,10 @@
                             </a>
                         </li>
                     </ul>
-                    <div class="collapse navbar-collapse search-collapse" id="navbarToggler">
+                    <!-- div class="collapse navbar-collapse search-collapse" id="navbarToggler">
                         <form class="form-inline ml-1">     
                             <button class="no-padding bg-trans border0" type="button"><i class="icon-Magnifi-Glass2"></i></button>
                             <input class="form-control border0" type="search" placeholder="Search..." aria-label="Search">
                         </form>
-                    </div>
+                    </div-->
                 </header>
