@@ -13,6 +13,7 @@
                     
                 </li><!--Menu-item-->
                 
+                @hasrole('Admin')
                 <li> <i class="icon-Gaugage nav-thumbnail"></i>
                     <a class="has-arrow" href="javascript:void(0)">
                         <span class="nav-text"> Admin Stuff </span>
@@ -25,7 +26,7 @@
                         <li><a href="/log-viewer">Log Viewer</a></li>
                     </ul>
                 </li><!-- admin stuff -->
-
+                @endhasrole
                 
                 
             </ul>

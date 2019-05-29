@@ -1,7 +1,7 @@
 @extends('templates.app')
 
         {{-- Subheader directives --}}
-        @section('head-title', 'Test')
+        @section('head-title', 'Users - Create')
 
         @section('page-icon')<i class="icon-Home"></i> @endsection
 
@@ -9,7 +9,7 @@
 
         @section('breadcrumbs')
             <li class="breadcrumb-item"><a href="/"><i class="icon-Home mr-2 fs14"></i></a></li>
-            <li class="breadcrumb-item"><a href="/users">Users</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('users.index') }}">Users</a></li>
             <li class="breadcrumb-item active">Create New</li>
         @endsection
 
@@ -56,9 +56,10 @@
 
         </div>
 
-        {{ Form::submit('Add', array('class' => 'btn btn-primary')) }}
+        {{ Form::submit('Add', array('class' => 'btn btn-primary')) }} <a href="/users"><button class="btn btn-danger">Cancel</button></a>
 
         {{ Form::close() }}
+        
 
     </div>
 </div>
