@@ -46,7 +46,7 @@
                 <tbody>
                 @foreach($users as $user)
                     <tr class="table-active">
-                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->name() }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->created_at->format('F d, Y h:ia') }}</td>
                         <td>{{ $user->roles()->pluck('name')->implode(' ') }}</td>

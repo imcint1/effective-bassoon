@@ -9,7 +9,7 @@
 @endsection
 
 @section('title')
-    <h3>Welcome <strong>{{ Auth::user()->name }}</strong></h3>
+    <h3>Welcome <strong>{{ Auth::user()->name() }}</strong></h3>
 @endsection
 
 @section('breadcrumbs')

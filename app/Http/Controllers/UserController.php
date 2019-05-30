@@ -51,13 +51,15 @@ class UserController extends Controller
     {
         //
         $this->validate($request, [
-            'name'=>'required|max:120',
+            'first_name'=>'required|max:120',
+            'last_name'=>'required|max:120',
             'email'=>'required|email|unique:users',
             'password'=>'required|min:8|confirmed'
         ]);
         
         $user = User::create([
-            'name'=>$request['name'],
+            'first_name'=>$request['first_name'],
+            'last_name'=>$request['last_name'],
             'email'=>$request['email'],
             'password'=> bcrypt($request['password'])
         ]);
@@ -69,6 +71,9 @@ class UserController extends Controller
                 $role_r = Role::where('id', '=', $role)->firstOrFail();
                 $user->assignRole($role_r);
             }
+        }
+        else{
+            $user->assignRole('user');
         }
         
         return redirect()->route('users.index')->with('success', 'User successfully added.');
@@ -112,23 +117,25 @@ class UserController extends Controller
     {
         //
         $user = User::findOrFail($id);
-        Log::info($user);
+        Log::info($request);
         $this->validate($request, [
-            'name'=>'required|max:120',
+            'first_name'=>'required|max:120',
+            'last_name'=>'required|max:120',
             'email'=>'required|email|unique:users,email,'.$user->id,
-            'password'=>'required|min:8|confirmed'
+            'password'=>'sometimes|min:8|confirmed|nullable'
         ]);
         
+        $user->first_name = $request['first_name'];
+        $user->last_name = $request['last_name'];
+        $user->email = $request['email'];
         
-        $user->fill([
-            'name'=>$request['name'],
-            'email'=>$request['email'],
-            'password'=> bcrypt($request['password'])         
-        ]);
+        if(!empty($request['password'])){
+            $user->password = bcrypt($request['password']);
+        }
+        
         $user->save();
         
         $roles = $request['roles'];
-        
         
         if(isset($roles)){
             $user->roles()->sync($roles);
@@ -137,7 +144,8 @@ class UserController extends Controller
             $user->roles()->detach();
         }
         
-        return redirect()->route('users.index')->with('success', 'User successfully edited.');
+        flash('User successfully edited')->success();
+        return redirect()->route('users.index');
     }
 
     /**
@@ -150,9 +158,8 @@ class UserController extends Controller
     {
         //
         $user = User::findOrFail($id);
-        $name = $user->name;
         $user->delete();
-        flash('User '. $name . 'was deleted. RIP')->warning();
+        flash('User '. $user->name() . 'was deleted. RIP')->warning();
         return redirect()->route('users.index');
     }
 }

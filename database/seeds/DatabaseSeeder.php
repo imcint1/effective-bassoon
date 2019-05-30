@@ -33,14 +33,12 @@ class DatabaseSeeder extends Seeder
 
         $this->command->info('Default Permissions added.');
 
-        // Confirm roles needed
-        if ($this->command->confirm('Create Roles for user, default is admin and user? [y|N]', true)) {
 
-            // Ask for roles from input
-            $input_roles = $this->command->ask('Enter roles in comma separate format.', 'Admin,User');
+           
 
-            // Explode roles
-            $roles_array = explode(',', $input_roles);
+            $roles_array = ['Admin','User'];
+
+            $input_roles = implode(" ",$roles_array);
 
             // add roles
             foreach($roles_array as $role) {
@@ -61,23 +59,28 @@ class DatabaseSeeder extends Seeder
 
             $this->command->info('Roles ' . $input_roles . ' added successfully');
 
-        } else {
-            Role::firstOrCreate(['name' => 'User']);
-            $this->command->info('Added only default user role.');
-        }
-
         
     }
     
     private function createUser($role)
     {
-        $user = factory(User::class)->create();
-        $user->assignRole($role->name);
-
         if( $role->name == 'Admin' ) {
+            $user = User::create([
+                'first_name' => 'admin',
+                'last_name'=> 'istrator',
+                'email'=> 'admin@admin.com',
+                'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+                'remember_token' => str_random(10)
+            ]);
+            $user->assignRole($role->name);
+        
             $this->command->info('Here is your admin details to login:');
             $this->command->warn($user->email);
             $this->command->warn('Password is "secret"');
+        }else{
+            $user = factory(User::class)->create();
+            $user->assignRole($role->name);
         }
+        
     }
 }
