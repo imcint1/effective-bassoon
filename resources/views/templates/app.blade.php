@@ -22,5 +22,6 @@
         </div>
         
         @include('templates.includes.js')
+        @include('templates.includes.ga')
     </body>
 </html>
